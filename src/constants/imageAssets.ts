@@ -6,15 +6,20 @@ export const CATEGORY_LOCAL_IMAGES: Record<string, ImageSourcePropType> = {
   Hotels: require('../assets/images/hotels.jpg'),
   Hospitals: require('../assets/images/hospitals.jpg'),
   Grocery: require('../assets/images/grocery.jpg'),
+  Kirana: require('../assets/images/grocery.jpg'),
   Shopping: require('../assets/images/shopping.jpg'),
+  Tailors: require('../assets/images/shopping.jpg'),
   Electronics: require('../assets/images/electronics.jpg'),
+  Electricians: require('../assets/images/electronics.jpg'),
   'Mobile Stores': require('../assets/images/mobile_stores.jpg'),
   Salons: require('../assets/images/salons.jpg'),
   Gyms: require('../assets/images/gyms.jpg'),
   Banks: require('../assets/images/banks.jpg'),
   'Real Estate': require('../assets/images/real_estate.jpg'),
+  Carpenters: require('../assets/images/real_estate.jpg'),
   Automobile: require('../assets/images/automobile.jpg'),
   Mechanics: require('../assets/images/mechanics.jpg'),
+  Pharmacies: require('../assets/images/hospitals.jpg'),
   Education: require('../assets/images/education.jpg'),
   Travel: require('../assets/images/travel.jpg'),
   Other: require('../assets/images/other.jpg'),
@@ -22,6 +27,7 @@ export const CATEGORY_LOCAL_IMAGES: Record<string, ImageSourcePropType> = {
 
 export const DEFAULT_USER_AVATAR: ImageSourcePropType = require('../assets/images/user_avatar.jpg');
 export const DEFAULT_BUSINESS_LOGO: ImageSourcePropType = require('../assets/images/business_logo.jpg');
+export const OFFER_FLAG_IMAGE: ImageSourcePropType = require('../assets/images/offer-flag.png');
 
 export function getBusinessAvatarSource(
   imageUri?: string | null,

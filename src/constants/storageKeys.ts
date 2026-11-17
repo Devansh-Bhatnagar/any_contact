@@ -4,4 +4,6 @@ export const STORAGE_KEYS = {
   THEME_MODE: '@business_contacts_theme_mode',
   AUTH_USER: '@business_contacts_auth_user',
   BUSINESS_DASHBOARD_DATA: '@business_contacts_dashboard_data',
+  REGISTERED_BUSINESSES: '@business_contacts_registered_businesses',
+  BLOCKED_CONTACTS: '@business_contacts_blocked_contacts',
 } as const;

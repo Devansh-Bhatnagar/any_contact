@@ -23,6 +23,11 @@ export const BestieScreen: React.FC = () => {
   const { colors } = useTheme();
   const { bestieBusinesses, toggleBestie, isBestie, trackBusinessView } = useBusinesses();
   const [selectedCallBusiness, setSelectedCallBusiness] = useState<Business | null>(null);
+  const [expandedBusinessId, setExpandedBusinessId] = useState<string | null>(null);
+
+  const handleToggleExpand = useCallback((businessId: string) => {
+    setExpandedBusinessId((prev) => (prev === businessId ? null : businessId));
+  }, []);
 
   const handleOpenBusiness = useCallback(
     (business: Business) => {
@@ -42,17 +47,20 @@ export const BestieScreen: React.FC = () => {
   const handleQuickWhatsApp = useCallback((business: Business) => {
     LinkingService.openWhatsApp(
       business.phone,
-      `Hello ${business.name}, I am contacting you via Contact App.`
+      `Hello ${business.name}, I am contacting you via Leads Phone Book.`
     );
   }, []);
 
   const renderItem = useCallback(
     ({ item, index }: { item: Business; index: number }) => {
       const isLast = index === bestieBusinesses.length - 1;
+      const isExpanded = item.id === expandedBusinessId;
       return (
         <BusinessListItem
           business={item}
-          onPress={handleOpenBusiness}
+          isExpanded={isExpanded}
+          onToggleExpand={handleToggleExpand}
+          onOpenDetails={handleOpenBusiness}
           onToggleBestie={toggleBestie}
           isBestie={isBestie(item.id)}
           onCall={handleQuickCall}
@@ -61,7 +69,16 @@ export const BestieScreen: React.FC = () => {
         />
       );
     },
-    [handleOpenBusiness, toggleBestie, isBestie, bestieBusinesses.length, handleQuickCall, handleQuickWhatsApp]
+    [
+      expandedBusinessId,
+      handleToggleExpand,
+      handleOpenBusiness,
+      toggleBestie,
+      isBestie,
+      bestieBusinesses.length,
+      handleQuickCall,
+      handleQuickWhatsApp,
+    ]
   );
 
   return (

@@ -3,7 +3,9 @@ import Svg, { Path, Circle, Rect, Polyline, Line, Polygon } from 'react-native-s
 
 export type IconName =
   | 'phone'
+  | 'phone-fill'
   | 'message'
+  | 'message-fill'
   | 'map-pin'
   | 'star'
   | 'star-fill'
@@ -52,7 +54,10 @@ export type IconName =
   | 'smile'
   | 'mic'
   | 'camera'
+  | 'backspace'
   | 'double-check'
+  | 'chat-plus'
+  | 'meta-ai'
   | 'lock'
   | 'facebook'
   | 'instagram'
@@ -88,6 +93,7 @@ export type IconName =
   | 'dollar-sign'
   | 'calendar'
   | 'chevron-down'
+  | 'chevron-up'
   | 'arrow-right'
   | 'type'
   | 'file-text'
@@ -95,7 +101,25 @@ export type IconName =
   | 'pause'
   | 'upload'
   | 'folder'
-  | 'repeat';
+  | 'repeat'
+  | 'keypad'
+  | 'speaker'
+  | 'mic-off'
+  | 'phone-off'
+  | 'user-plus'
+  | 'record'
+  | 'settings'
+  | 'ambulance'
+  | 'flame'
+  | 'snake'
+  | 'block'
+  | 'book-phone'
+  | 'pin'
+  | 'status'
+  | 'list'
+  | 'flag'
+  | 'flag-fill'
+  | 'verified-badge';
 
 interface IconProps {
   name: IconName | string;
@@ -125,6 +149,13 @@ export const Icon: React.FC<IconProps> = ({
         </Svg>
       );
 
+    case 'phone-fill':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+          <Path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2a15.053 15.053 0 01-6.59-6.59l2.2-2.21a.96.96 0 00.25-1A11.36 11.36 0 018.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-.99-1.12z" />
+        </Svg>
+      );
+
     case 'message':
     case 'sms':
       return (
@@ -136,6 +167,13 @@ export const Icon: React.FC<IconProps> = ({
             strokeLinecap="round"
             strokeLinejoin="round"
           />
+        </Svg>
+      );
+
+    case 'message-fill':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+          <Path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
         </Svg>
       );
 
@@ -592,9 +630,21 @@ export const Icon: React.FC<IconProps> = ({
 
     case 'video':
       return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+          <Path d="M17 10.5V7a1 1 0 00-1-1H3a1 1 0 00-1 1v10a1 1 0 001 1h13a1 1 0 001-1v-3.5l4 4V6.5l-4 4z" />
+        </Svg>
+      );
+
+    case 'list':
+    case 'details-list':
+      return (
         <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-          <Polygon points="23 7 16 12 23 17 23 7" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-          <Rect x="1" y="5" width="15" height="14" rx="2" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+          <Line x1="9" y1="6" x2="20" y2="6" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Line x1="9" y1="12" x2="20" y2="12" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Line x1="9" y1="18" x2="20" y2="18" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Circle cx="4.5" cy="6" r="1.5" fill={color} />
+          <Circle cx="4.5" cy="12" r="1.5" fill={color} />
+          <Circle cx="4.5" cy="18" r="1.5" fill={color} />
         </Svg>
       );
 
@@ -1011,6 +1061,13 @@ export const Icon: React.FC<IconProps> = ({
         </Svg>
       );
 
+    case 'chevron-up':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Polyline points="18 15 12 9 6 15" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
     case 'arrow-right':
       return (
         <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -1071,6 +1128,252 @@ export const Icon: React.FC<IconProps> = ({
       return (
         <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
           <Path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'phone-off':
+    case 'end-call':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M10.68 13.31a16 16 0 003.41 2.6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7 2 2 0 011.72 2v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.42 19.42 0 01-3.33-2.67m-2.67-3.34a19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <Line x1="1" y1="1" x2="23" y2="23" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+        </Svg>
+      );
+
+    case 'keypad':
+    case 'dialpad':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+          <Circle cx="5" cy="5" r="1.8" />
+          <Circle cx="12" cy="5" r="1.8" />
+          <Circle cx="19" cy="5" r="1.8" />
+          <Circle cx="5" cy="12" r="1.8" />
+          <Circle cx="12" cy="12" r="1.8" />
+          <Circle cx="19" cy="12" r="1.8" />
+          <Circle cx="5" cy="19" r="1.8" />
+          <Circle cx="12" cy="19" r="1.8" />
+          <Circle cx="19" cy="19" r="1.8" />
+        </Svg>
+      );
+
+    case 'speaker':
+    case 'volume':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <Path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'mic-off':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Line x1="1" y1="1" x2="23" y2="23" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M19 10v2a7 7 0 01-11.83 5.08M12 19v4M8 23h8" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'user-plus':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+          <Circle cx="8.5" cy="7" r="4" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+          <Line x1="20" y1="8" x2="20" y2="14" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Line x1="23" y1="11" x2="17" y2="11" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+        </Svg>
+      );
+
+    case 'record':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Circle cx="12" cy="12" r="9" stroke={color} strokeWidth={strokeWidth} />
+          <Circle cx="12" cy="12" r="4" fill={color} />
+        </Svg>
+      );
+
+    case 'settings':
+    case 'gear':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Circle cx="12" cy="12" r="3" stroke={color} strokeWidth={strokeWidth} />
+          <Path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'ambulance':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Rect x="1" y="6" width="14" height="11" rx="2" stroke={color} strokeWidth={strokeWidth} />
+          <Path d="M15 9h4l3 3v5h-7V9z" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+          <Circle cx="5.5" cy="18" r="2" stroke={color} strokeWidth={strokeWidth} />
+          <Circle cx="18" cy="18" r="2" stroke={color} strokeWidth={strokeWidth} />
+          <Line x1="8" y1="9" x2="8" y2="14" stroke={color} strokeWidth={strokeWidth + 0.5} strokeLinecap="round" />
+          <Line x1="5.5" y1="11.5" x2="10.5" y2="11.5" stroke={color} strokeWidth={strokeWidth + 0.5} strokeLinecap="round" />
+        </Svg>
+      );
+
+    case 'flame':
+    case 'fire':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path d="M8.5 14.5A3.5 3.5 0 0012 18a3.5 3.5 0 003.5-3.5c0-2-1.5-3.5-3.5-5.5-2 2-3.5 3.5-3.5 5.5z" fill={color} />
+          <Path d="M12 2c1 3 4 5 5 9a7 7 0 11-14 0c1-4 4-6 5-9 0 2 1 3 2 3s2-1 2-3z" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'snake':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path d="M19 4a2 2 0 00-2 2c0 1.5-1 2.5-2.5 2.5S12 7.5 12 6a4 4 0 00-8 0c0 4 3 6 6 7 4 1.3 7 3 7 6a3 3 0 01-6 0c0-1.5-1-2-2-2s-2 1-2 2a5 5 0 0010 0c0-4.5-3.5-6.5-7.5-8-3-1-4-2.5-4-5a2 2 0 014 0c0 2.5 1.5 4 4 4s4.5-1.5 4.5-4a4 4 0 00-4-4" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'block':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Circle cx="12" cy="12" r="10" stroke={color} strokeWidth={strokeWidth} />
+          <Line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+        </Svg>
+      );
+
+    case 'book-phone':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Circle cx="12" cy="12" r="10" stroke={color} strokeWidth={strokeWidth} />
+          <Path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" stroke={color} strokeWidth={strokeWidth} />
+        </Svg>
+      );
+
+    case 'pin':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path d="M12 17v5M5 17h14l-2-6V4h1V2H6v2h1v7l-2 6z" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      );
+
+    case 'status':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path d="M12 2a10 10 0 0110 10" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Path d="M12 22a10 10 0 01-10-10" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <Circle cx="12" cy="12" r="3.5" fill={color} />
+        </Svg>
+      );
+
+    case 'backspace':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <Path
+            d="M18 9l-6 6M12 9l6 6"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'chat-plus':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 28 28" fill="none">
+          <Path
+            d="M8 4.5h12c2.2 0 4 1.8 4 4v9c0 2.2-1.8 4-4 4H8c-2.2 0-4-1.8-4-4v-2.2L1.8 13 4 10.7V8.5c0-2.2 1.8-4 4-4z"
+            fill={color || '#1C2127'}
+          />
+          <Line x1="14" y1="8.5" x2="14" y2="17.5" stroke="#FFFFFF" strokeWidth={2.6} strokeLinecap="round" />
+          <Line x1="9.5" y1="13" x2="18.5" y2="13" stroke="#FFFFFF" strokeWidth={2.6} strokeLinecap="round" />
+        </Svg>
+      );
+
+    case 'meta-ai':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+          {[
+            { angle: 0, color: '#38BDF8' },
+            { angle: 45, color: '#818CF8' },
+            { angle: 90, color: '#A855F7' },
+            { angle: 135, color: '#C084FC' },
+            { angle: 180, color: '#F472B6' },
+            { angle: 225, color: '#EC4899' },
+            { angle: 270, color: '#8B5CF6' },
+            { angle: 315, color: '#6366F1' },
+          ].map((p, idx) => {
+            const rad = (p.angle * Math.PI) / 180;
+            const cx = 16 + 7.8 * Math.sin(rad);
+            const cy = 16 - 7.8 * Math.cos(rad);
+            return (
+              <Rect
+                key={idx}
+                x={cx - 2.1}
+                y={cy - 4}
+                width={4.2}
+                height={8}
+                rx={2.1}
+                fill={p.color}
+                transform={`rotate(${p.angle}, ${cx}, ${cy})`}
+              />
+            );
+          })}
+        </Svg>
+      );
+
+    case 'flag':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <Line
+            x1="4"
+            y1="22"
+            x2="4"
+            y2="15"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+          />
+        </Svg>
+      );
+
+    case 'flag-fill':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+          <Path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z" />
+        </Svg>
+      );
+
+    case 'verified-badge':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M9.70 3.40 Q 12.00 0.60 14.30 3.40 Q 17.70 2.13 18.29 5.71 Q 21.87 6.30 20.60 9.70 Q 23.40 12.00 20.60 14.30 Q 21.87 17.70 18.29 18.29 Q 17.70 21.87 14.30 20.60 Q 12.00 23.40 9.70 20.60 Q 6.30 21.87 5.71 18.29 Q 2.13 17.70 3.40 14.30 Q 0.60 12.00 3.40 9.70 Q 2.13 6.30 5.71 5.71 Q 6.30 2.13 9.70 3.40 Z"
+            fill={color === '#1A1D20' ? '#25D366' : color}
+          />
+          <Path
+            d="M8.5 12.3L10.8 14.6L15.6 9.5"
+            stroke="#FFFFFF"
+            strokeWidth={2.3}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </Svg>
       );
 

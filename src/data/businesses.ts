@@ -20,6 +20,7 @@ export const SAMPLE_BUSINESSES: Business[] = [
     email: 'help@apollospectra.in',
     website: 'https://www.apollospectra.com',
     tagline: 'Healthcare you can trust',
+    offers: ['Free Health Checkup Consultation'],
     socials: {
       instagram: 'https://www.instagram.com/apollohospitals',
       linkedin: 'https://www.linkedin.com/company/apollo-hospitals',
@@ -45,6 +46,7 @@ export const SAMPLE_BUSINESSES: Business[] = [
     email: 'orders@anandabhavan.com',
     website: 'https://anandabhavan.com',
     tagline: 'Tradition of Pure Taste',
+    offers: ['Buy 1 Get 1 Free (एक पर एक फ्री)', 'Flat 20% Off Today'],
     socials: {
       instagram: 'https://www.instagram.com/anandabhavanofficial',
       facebook: 'https://www.facebook.com/AnandaBhavanSweets',
@@ -807,7 +809,7 @@ export const SAMPLE_BUSINESSES: Business[] = [
     address: '258/A, Bommasandra Industrial Area, Anekal Taluk',
     city: 'Bengaluru',
     description: 'Comprehensive cardiac care hospital founded by Dr. Devi Shetty, providing pediatric cardiology, angioplasty and bypass surgery.',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=400&q=80',
     latitude: 12.8123,
     longitude: 77.6934,
     isBestie: false,

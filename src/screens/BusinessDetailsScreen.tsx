@@ -9,6 +9,7 @@ import {
   StatusBar,
   Switch,
   Platform,
+  Image,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -24,6 +25,8 @@ import { LinkingService } from '../services/linkingService';
 import { typography } from '../theme/typography';
 import { spacing, borderRadius, shadows } from '../theme/spacing';
 import { CATEGORY_COLORS, CATEGORY_ICONS } from '../constants/categories';
+import { getOfferColor } from '../constants/offerColors';
+import { OFFER_FLAG_IMAGE } from '../constants/imageAssets';
 
 type DetailsRouteProp = RouteProp<RootStackParamList, 'BusinessDetails'>;
 type DetailsNavProp = NativeStackNavigationProp<RootStackParamList>;
@@ -33,9 +36,20 @@ export const BusinessDetailsScreen: React.FC = () => {
   const navigation = useNavigation<DetailsNavProp>();
   const { colors, isDark } = useTheme();
   const { businessId, initialBusiness } = route.params;
-  const { getBusinessById, toggleBestie, isBestie: checkIsBestie } = useBusinesses();
+  const {
+    getBusinessById,
+    fetchBusinessDetails,
+    toggleBestie,
+    isBestie: checkIsBestie,
+  } = useBusinesses();
 
   const [isCallSheetVisible, setIsCallSheetVisible] = useState(false);
+
+  React.useEffect(() => {
+    if (businessId && !businessId.startsWith('biz-local-')) {
+      fetchBusinessDetails(businessId);
+    }
+  }, [businessId, fetchBusinessDetails]);
 
   const business = useMemo(() => {
     return getBusinessById(businessId) || initialBusiness;
@@ -83,7 +97,7 @@ export const BusinessDetailsScreen: React.FC = () => {
   const handleWhatsApp = () => {
     LinkingService.openWhatsApp(
       business.phone,
-      `Hello ${business.name}, I am contacting you via Contact App.`
+      `Hello ${business.name}, I am contacting you via Leads Phone Book.`
     );
   };
 
@@ -176,9 +190,14 @@ export const BusinessDetailsScreen: React.FC = () => {
             </View>
           </View>
 
-          <Text style={[styles.businessTitle, { color: colors.text }]}>
-            {business.name}
-          </Text>
+          <View style={styles.businessTitleRow}>
+            <Text style={[styles.businessTitle, { color: colors.text }]}>
+              {business.name}
+            </Text>
+            {business.verified !== false ? (
+              <Icon name="verified-badge" size={20} color="#25D366" />
+            ) : null}
+          </View>
 
           {business.tagline ? (
             <Text style={[styles.tagline, { color: colors.textSecondary }]}>
@@ -309,6 +328,83 @@ export const BusinessDetailsScreen: React.FC = () => {
             thumbColor="#FFFFFF"
           />
         </TouchableOpacity>
+
+        {/* Special Active Offers Card */}
+        {(() => {
+          const offersList =
+            business.offers && business.offers.length > 0
+              ? business.offers.map((off, idx) => ({ id: `off-${idx}`, title: off, description: undefined }))
+              : (business.promotions || []);
+          if (offersList.length === 0) return null;
+          const topColor = getOfferColor(offersList[0].title);
+          return (
+            <View
+              style={[
+                styles.offersSectionCard,
+                {
+                  backgroundColor: isDark ? topColor.badgeBgDark : topColor.badgeBg,
+                  borderColor: isDark ? topColor.borderDark : topColor.border,
+                },
+                shadows.subtle,
+              ]}
+            >
+              <View style={styles.offersSectionHeader}>
+                <Image
+                  source={OFFER_FLAG_IMAGE}
+                  style={{ width: 30, height: 26 }}
+                  resizeMode="contain"
+                />
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.offersSectionTitle, { color: isDark ? topColor.textDark : topColor.text }]}>
+                    Special Offers & Deals
+                  </Text>
+                  <Text style={[styles.offersSectionSubtitle, { color: isDark ? topColor.textDark : topColor.text, opacity: 0.85 }]}>
+                    Active promotions available for this business
+                  </Text>
+                </View>
+                <Image
+                  source={OFFER_FLAG_IMAGE}
+                  style={{ width: 26, height: 22 }}
+                  resizeMode="contain"
+                />
+              </View>
+
+              <View style={styles.offersListGroup}>
+                {offersList.map((item, idx) => {
+                  const itemColor = getOfferColor(item.title, idx);
+                  return (
+                    <View
+                      key={item.id}
+                      style={[
+                        styles.offerItemCard,
+                        {
+                          backgroundColor: isDark ? '#23252B' : '#FFFFFF',
+                          borderColor: isDark ? itemColor.borderDark : itemColor.border,
+                        },
+                      ]}
+                    >
+                      <Image
+                        source={OFFER_FLAG_IMAGE}
+                        style={{ width: 24, height: 21 }}
+                        resizeMode="contain"
+                      />
+                      <View style={{ flex: 1 }}>
+                        <Text style={[styles.offerItemTitle, { color: isDark ? '#FFFFFF' : itemColor.text }]}>
+                          {item.title}
+                        </Text>
+                        {item.description ? (
+                          <Text style={[styles.offerItemDesc, { color: isDark ? '#B0B3B8' : itemColor.text }]}>
+                            {item.description}
+                          </Text>
+                        ) : null}
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          );
+        })()}
 
         {/* Detailed Info Cards */}
         <View style={styles.detailsGroup}>
@@ -511,11 +607,19 @@ const styles = StyleSheet.create({
     height: 96,
     borderRadius: borderRadius.full,
   },
+  businessTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    marginBottom: 4,
+    paddingHorizontal: spacing.md,
+  },
   businessTitle: {
     ...typography.titleMedium,
     fontSize: 22,
     textAlign: 'center',
-    marginBottom: 4,
+    flexShrink: 1,
   },
   tagline: {
     ...typography.bodyMedium,
@@ -663,5 +767,63 @@ const styles = StyleSheet.create({
   aboutText: {
     ...typography.bodyMedium,
     lineHeight: 20,
+  },
+  offersSectionCard: {
+    padding: spacing.lg,
+    borderRadius: borderRadius.xl,
+    borderWidth: 1,
+    gap: spacing.md,
+  },
+  offersSectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  offerSectionFlagIcon: {
+    width: 28,
+    height: 28,
+    borderRadius: borderRadius.full,
+    backgroundColor: '#FEE2E2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  offersSectionTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  offersSectionSubtitle: {
+    fontSize: 12,
+    marginTop: 1,
+  },
+  offerFlagChip: {
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderRadius: 4,
+    backgroundColor: '#DC2626',
+  },
+  offerFlagChipText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
+  },
+  offersListGroup: {
+    gap: 8,
+  },
+  offerItemCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    gap: 10,
+  },
+  offerItemTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  offerItemDesc: {
+    fontSize: 12,
+    marginTop: 2,
   },
 });

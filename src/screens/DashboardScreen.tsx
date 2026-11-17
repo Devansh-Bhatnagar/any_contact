@@ -160,7 +160,7 @@ export const DashboardScreen: React.FC = () => {
                       onPress={() =>
                         LinkingService.openWhatsApp(
                           item.phone,
-                          `Hello ${item.name}, I found your contact on Contact App.`
+                          `Hello ${item.name}, I found your contact on Leads Phone Book.`
                         )
                       }
                     >

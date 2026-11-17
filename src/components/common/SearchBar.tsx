@@ -83,16 +83,21 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
 const styles = StyleSheet.create({
   outerContainer: {
-    paddingHorizontal: spacing.lg,
+    paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 44,
-    borderRadius: borderRadius.lg,
-    paddingHorizontal: spacing.md,
+    height: 46,
+    borderRadius: 24,
+    paddingHorizontal: spacing.lg,
     gap: spacing.sm,
+    shadowColor: '#1A2942',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 3,
+    elevation: 1,
   },
   input: {
     flex: 1,
@@ -102,8 +107,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   clearButton: {
-    width: 22,
-    height: 22,
+    width: 24,
+    height: 24,
     borderRadius: borderRadius.full,
     alignItems: 'center',
     justifyContent: 'center',

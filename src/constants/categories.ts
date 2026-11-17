@@ -18,10 +18,19 @@ export const ALL_CATEGORIES: BusinessCategory[] = [
   'Mechanics',
   'Education',
   'Travel',
+  'Professional Services',
+  'Technology & SaaS',
+  'Hospitality & Food',
+  'Logistics & Supply',
+  'Arts & Entertainment',
+  'Beauty & Personal Care',
+  'Healthcare & Wellness',
+  'Finance & Insurance',
+  'Retail & E-commerce',
   'Other',
 ];
 
-export const CATEGORY_ICONS: Record<BusinessCategory, string> = {
+export const CATEGORY_ICONS: Record<string, string> = {
   All: 'grid',
   Restaurants: 'utensils',
   Cafes: 'coffee',
@@ -39,10 +48,19 @@ export const CATEGORY_ICONS: Record<BusinessCategory, string> = {
   Mechanics: 'wrench',
   Education: 'book-open',
   Travel: 'plane',
+  'Professional Services': 'briefcase',
+  'Technology & SaaS': 'cpu',
+  'Hospitality & Food': 'utensils',
+  'Logistics & Supply': 'truck',
+  'Arts & Entertainment': 'film',
+  'Beauty & Personal Care': 'sparkles',
+  'Healthcare & Wellness': 'heart',
+  'Finance & Insurance': 'credit-card',
+  'Retail & E-commerce': 'shopping-cart',
   Other: 'briefcase',
 };
 
-export const CATEGORY_COLORS: Record<Exclude<BusinessCategory, 'All'>, string> = {
+export const CATEGORY_COLORS: Record<string, string> = {
   Restaurants: '#FF5722',
   Cafes: '#795548',
   Hotels: '#3F51B5',
@@ -59,5 +77,15 @@ export const CATEGORY_COLORS: Record<Exclude<BusinessCategory, 'All'>, string> =
   Mechanics: '#607D8B',
   Education: '#8E24AA',
   Travel: '#0288D1',
+  'Professional Services': '#0288D1',
+  'Technology & SaaS': '#6200EA',
+  'Hospitality & Food': '#FF7043',
+  'Logistics & Supply': '#00897B',
+  'Arts & Entertainment': '#AB47BC',
+  'Beauty & Personal Care': '#EC407A',
+  'Healthcare & Wellness': '#43A047',
+  'Finance & Insurance': '#1565C0',
+  'Retail & E-commerce': '#FF9800',
   Other: '#78909C',
 };
+

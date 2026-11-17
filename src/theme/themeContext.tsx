@@ -41,7 +41,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const colors = isDark ? darkColors : lightColors;
 
   const toggleTheme = () => {
-    if (mode === 'dark') {
+    if (isDark) {
       setMode('light');
     } else {
       setMode('dark');

@@ -88,4 +88,46 @@ export class StorageService {
       console.warn('Failed to save dashboard data:', error);
     }
   }
+
+  static async getRegisteredBusinesses(): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.REGISTERED_BUSINESSES);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.warn('Failed to load registered businesses:', error);
+      return [];
+    }
+  }
+
+  static async saveRegisteredBusinesses(businesses: any[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(
+        STORAGE_KEYS.REGISTERED_BUSINESSES,
+        JSON.stringify(businesses)
+      );
+    } catch (error) {
+      console.warn('Failed to save registered businesses:', error);
+    }
+  }
+
+  static async getBlockedContacts(): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.BLOCKED_CONTACTS);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.warn('Failed to load blocked contacts:', error);
+      return [];
+    }
+  }
+
+  static async saveBlockedContacts(contacts: any[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(
+        STORAGE_KEYS.BLOCKED_CONTACTS,
+        JSON.stringify(contacts)
+      );
+    } catch (error) {
+      console.warn('Failed to save blocked contacts:', error);
+    }
+  }
 }
