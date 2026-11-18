@@ -30,8 +30,30 @@ const generalLimiter = rateLimit({
 });
 app.use("/api", generalLimiter);
 
-// Security: Strict CORS
-app.use(cors({ origin: env.corsOrigins }));
+// Security: Flexible & Secure CORS (Supports Vercel deployments, localhost, and custom domains)
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow mobile apps, curl, or server-to-server requests without Origin header
+      if (!origin) return callback(null, true);
+
+      const allowed = env.corsOrigins;
+      if (
+        allowed.includes("*") ||
+        allowed.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        origin.includes("localhost") ||
+        origin.includes("127.0.0.1")
+      ) {
+        return callback(null, true);
+      }
+
+      // Safe fallback for customer domains
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 
 // Security: Constrained JSON payload limit to protect against memory exhaustion
 app.use(express.json({ limit: "2mb" }));

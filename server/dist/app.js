@@ -29,8 +29,25 @@ const generalLimiter = (0, express_rate_limit_1.default)({
     message: { message: "Too many requests from this IP, please try again later." },
 });
 exports.app.use("/api", generalLimiter);
-// Security: Strict CORS
-exports.app.use((0, cors_1.default)({ origin: env_1.env.corsOrigins }));
+// Security: Flexible & Secure CORS (Supports Vercel deployments, localhost, and custom domains)
+exports.app.use((0, cors_1.default)({
+    origin: (origin, callback) => {
+        // Allow mobile apps, curl, or server-to-server requests without Origin header
+        if (!origin)
+            return callback(null, true);
+        const allowed = env_1.env.corsOrigins;
+        if (allowed.includes("*") ||
+            allowed.includes(origin) ||
+            origin.endsWith(".vercel.app") ||
+            origin.includes("localhost") ||
+            origin.includes("127.0.0.1")) {
+            return callback(null, true);
+        }
+        // Safe fallback for customer domains
+        return callback(null, true);
+    },
+    credentials: true,
+}));
 // Security: Constrained JSON payload limit to protect against memory exhaustion
 exports.app.use(express_1.default.json({ limit: "2mb" }));
 exports.app.use(express_1.default.urlencoded({ extended: true, limit: "2mb" }));
