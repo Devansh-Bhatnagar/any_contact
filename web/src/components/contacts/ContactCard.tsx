@@ -38,7 +38,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
   return (
     <div
       onClick={() => onSelect(contact)}
-      className="contact-card group hover:border-primary hover:shadow-md hover:-translate-y-0.5"
+      className="contact-card group"
     >
       {/* Avatar Container with App Status Indicator */}
       <div className="contact-card-avatar-wrap">
@@ -52,7 +52,6 @@ export const ContactCard: React.FC<ContactCardProps> = ({
           }}
         />
 
-        {/* Green App Live Connection Dot */}
         {contact.hasApp && (
           <span
             className="contact-card-online-dot"
@@ -61,45 +60,46 @@ export const ContactCard: React.FC<ContactCardProps> = ({
         )}
       </div>
 
-      {/* Info Body */}
+      {/* Info Body - Clean Hierarchical DOM */}
       <div className="contact-card-info">
-        <div className="contact-card-header-row">
-          <h3 className="contact-card-name">
+        {/* Line 1: Contact Name + Offer Flag (Full width, never cramped!) */}
+        <div className="contact-card-name-row">
+          <h3 className="contact-card-name" title={contact.name}>
             {contact.name}
           </h3>
-
-          {/* Offer Flag if Business Contact has Offers */}
           {hasOffers && <OfferFlagBadge size="sm" />}
-
-          {contact.category && (
-            <span className="contact-card-category-badge">
-              {contact.category}
-            </span>
-          )}
         </div>
 
-        {/* Primary Phone */}
+        {/* Line 2: Category Badge (Structured pill badge, never collides with name!) */}
+        {contact.category && (
+          <div className="contact-card-category-row">
+            <span className="contact-card-category-pill">
+              {contact.category}
+            </span>
+          </div>
+        )}
+
+        {/* Line 3: Primary Phone */}
         <div className="contact-card-phone-row">
-          <Smartphone size={12} className="contact-card-phone-icon" />
+          <Smartphone size={12} className="contact-card-icon" />
           <span className="contact-card-phone-text">{contact.primaryPhone}</span>
         </div>
 
-        {/* Email or Offer Teaser */}
+        {/* Line 4: Email or Active Deal */}
         {hasOffers ? (
-          <div className="contact-card-offer-teaser">
-            🏷️ {contact.offers![0]}
+          <div className="contact-card-offer-row">
+            <span className="contact-card-offer-text">🏷️ {contact.offers![0]}</span>
           </div>
         ) : contact.email ? (
           <div className="contact-card-email-row">
-            <Mail size={11} className="contact-card-email-icon" />
+            <Mail size={11} className="contact-card-icon" />
             <span className="contact-card-email-text">{contact.email}</span>
           </div>
         ) : null}
       </div>
 
-      {/* Quick Action Buttons */}
+      {/* Quick Action Buttons (Star, Call, WhatsApp) */}
       <div className="contact-card-actions">
-        {/* Favorite Star */}
         <button
           type="button"
           onClick={handleStar}
@@ -109,22 +109,20 @@ export const ContactCard: React.FC<ContactCardProps> = ({
           <Star size={15} fill={contact.isFavorite ? '#F59E0B' : 'transparent'} />
         </button>
 
-        {/* Call Button */}
         <button
           type="button"
           onClick={handleCall}
           className="contact-card-action-btn call-btn"
-          title="Direct Call"
+          title={`Call ${contact.name}`}
         >
           <Phone size={14} />
         </button>
 
-        {/* WhatsApp Button */}
         <button
           type="button"
           onClick={handleWhatsApp}
           className="contact-card-action-btn whatsapp-btn"
-          title="Chat on WhatsApp"
+          title={`Chat with ${contact.name} on WhatsApp`}
         >
           <MessageCircle size={14} />
         </button>

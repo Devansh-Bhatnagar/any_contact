@@ -10,10 +10,6 @@ import {
   Plus,
   Building2,
   Smartphone,
-  Tag,
-  Users,
-  PhoneCall,
-  Menu,
   RefreshCw,
 } from 'lucide-react';
 
@@ -28,11 +24,18 @@ interface NavbarProps {
   onToggleSimulator: () => void;
 }
 
+const tabMeta: Record<NavTab, { title: string; subtitle: string }> = {
+  contacts: { title: 'Contacts Directory', subtitle: 'Verified phonebook & smart speed dial' },
+  businesses: { title: 'Business Leads', subtitle: 'Explore local shops, verified services & deals' },
+  offers: { title: 'Exclusive Deals', subtitle: 'Promotions, buy-1-get-1 & festive combo savings' },
+  dialer: { title: 'Smart Keypad Dialer', subtitle: 'Authentic DTMF tone calling & speed contacts' },
+  emergency: { title: '24x7 Emergency Hub', subtitle: 'Unified 112 & official national helplines' },
+};
+
 export const Navbar: React.FC<NavbarProps> = ({
   searchQuery,
   onSearchChange,
   activeTab,
-  onSelectTab,
   onOpenRegisterBusiness,
   onOpenAddContact,
   isSimulatorMode,
@@ -42,49 +45,34 @@ export const Navbar: React.FC<NavbarProps> = ({
   const { isLiveBackend, refreshBusinesses, isLoading: isBizLoading } = useBusinesses();
   const { refreshContacts, isLoading: isContactsLoading } = useContacts();
 
+  const isSyncing = isBizLoading || isContactsLoading;
+
   return (
-    <header
-      className="navbar-header"
-      style={{
-        height: '70px',
-        backgroundColor: 'var(--surface)',
-        borderBottom: '1px solid var(--border)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 24px',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
-      {/* Mobile Brand Logo (shown only on mobile, hidden on lg+) */}
-      <div
-        className="show-mobile-only"
-        style={{ alignItems: 'center', gap: '8px', flexShrink: 0, marginRight: '10px' }}
-      >
-        <img
-          src="/app-icon.png"
-          alt="Leads Phone Book"
-          style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }}
-        />
-        <span
-          className="navbar-brand-text"
-          style={{
-            fontSize: '15px',
-            fontWeight: 800,
-            color: 'var(--text)',
-            whiteSpace: 'nowrap',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          Leads Phone Book
-        </span>
+    <header className="navbar-header">
+      {/* 1. LEFT BRAND / TITLE AREA */}
+      <div className="navbar-left-area">
+        {/* Desktop View Title & Breadcrumb (hidden on <1024px) */}
+        <div className="navbar-desktop-title-block">
+          <h2 className="navbar-page-title">{tabMeta[activeTab].title}</h2>
+          <span className="navbar-page-subtitle">{tabMeta[activeTab].subtitle}</span>
+        </div>
+
+        {/* Mobile & Tablet Brand Header (shown only on <1024px) */}
+        <div className="navbar-mobile-brand-block">
+          <img
+            src="/app-icon.png"
+            alt="Leads Phone Book"
+            className="navbar-brand-logo-img"
+          />
+          <div className="navbar-brand-text-wrap">
+            <span className="navbar-brand-title">Leads Phone Book</span>
+            <span className="navbar-brand-sub">Smart Directory</span>
+          </div>
+        </div>
       </div>
 
-      {/* Global Search Bar (hidden on mobile, shown sm+) */}
-      <div className="hidden-mobile-block" style={{ flex: 1, maxWidth: '560px', marginRight: '16px' }}>
+      {/* 2. CENTER GLOBAL SEARCH BAR (Shown on tablet & desktop >=640px) */}
+      <div className="navbar-search-block">
         <SearchBar
           value={searchQuery}
           onChange={onSearchChange}
@@ -96,8 +84,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         />
       </div>
 
-      {/* Right Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      {/* 3. RIGHT ACTIONS AREA */}
+      <div className="navbar-actions-area">
         {/* Live Server Sync Pill */}
         <button
           type="button"
@@ -105,129 +93,60 @@ export const Navbar: React.FC<NavbarProps> = ({
             refreshBusinesses();
             refreshContacts();
           }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '6px 12px',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '11.5px',
-            fontWeight: 700,
-            border: '1px solid var(--border)',
-            backgroundColor: isLiveBackend ? 'rgba(16, 185, 129, 0.12)' : 'var(--surface-variant)',
-            color: isLiveBackend ? '#059669' : 'var(--text-tertiary)',
-            cursor: 'pointer',
-          }}
+          className={`navbar-sync-btn ${isLiveBackend ? 'live' : 'ready'}`}
           title="Click to re-sync with Leads Phone Book backend API"
         >
-          <span
-            style={{
-              width: '7px',
-              height: '7px',
-              borderRadius: '50%',
-              backgroundColor: isLiveBackend ? '#10B981' : '#F59E0B',
-              boxShadow: isLiveBackend ? '0 0 6px #10B981' : 'none',
-            }}
-          />
-          <span className="text-hide-mobile">
-            {isBizLoading || isContactsLoading ? 'Syncing...' : isLiveBackend ? 'API Live' : 'Backend Ready'}
+          <span className="navbar-sync-dot" />
+          <span className="navbar-sync-text">
+            {isSyncing ? 'Syncing...' : isLiveBackend ? 'API Live' : 'Backend Ready'}
           </span>
           <RefreshCw
             size={12}
-            style={{
-              animation: isBizLoading || isContactsLoading ? 'spin 1s linear infinite' : 'none',
-            }}
+            className={`navbar-sync-icon ${isSyncing ? 'spinning' : ''}`}
           />
         </button>
 
-        {/* Toggle Mobile Simulator */}
+        {/* Toggle Mobile Simulator (visible on md+) */}
         <button
           type="button"
           onClick={onToggleSimulator}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            backgroundColor: isSimulatorMode ? 'var(--primary)' : 'var(--surface-variant)',
-            color: isSimulatorMode ? '#FFFFFF' : 'var(--text)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-full)',
-            padding: '7px 14px',
-            fontSize: '12px',
-            fontWeight: 700,
-            cursor: 'pointer',
-          }}
-          className="hidden-below-md"
+          className={`navbar-simulator-btn ${isSimulatorMode ? 'active' : ''}`}
           title="Toggle interactive mobile phone preview frame"
         >
-          <Smartphone size={15} />
-          <span>{isSimulatorMode ? 'Exit Mobile Frame' : 'Mobile App Frame'}</span>
+          <Smartphone size={14} />
+          <span>{isSimulatorMode ? 'Exit Frame' : 'Mobile Frame'}</span>
         </button>
 
-        {/* Add Contact Button */}
+        {/* Quick Add Contact Button (desktop only) */}
         <button
           type="button"
           onClick={onOpenAddContact}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            backgroundColor: 'var(--surface-variant)',
-            color: 'var(--text)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '8px 14px',
-            fontSize: '13px',
-            fontWeight: 700,
-            cursor: 'pointer',
-          }}
-          className="hidden-mobile"
+          className="navbar-add-contact-btn"
+          title="Add New Contact"
         >
-          <Plus size={15} /> Contact
+          <Plus size={14} />
+          <span>Contact</span>
         </button>
 
-        {/* Register Business Button */}
+        {/* Register Business Button (desktop only) */}
         <button
           type="button"
           onClick={onOpenRegisterBusiness}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            background: 'var(--primary-gradient)',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: 'var(--radius-md)',
-            padding: '8px 16px',
-            fontSize: '13px',
-            fontWeight: 800,
-            cursor: 'pointer',
-            boxShadow: 'var(--shadow-glow)',
-          }}
-          className="hidden-mobile"
+          className="navbar-register-biz-btn"
+          title="Register Your Business"
         >
-          <Building2 size={15} /> Register Business
+          <Building2 size={14} />
+          <span>Register Business</span>
         </button>
 
-        {/* Theme Toggle */}
+        {/* Theme Toggle Button (Light / Dark) */}
         <button
           type="button"
           onClick={toggleTheme}
-          style={{
-            background: 'var(--surface-variant)',
-            border: '1px solid var(--border)',
-            borderRadius: '50%',
-            width: '38px',
-            height: '38px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--text-secondary)',
-            cursor: 'pointer',
-          }}
+          className="navbar-theme-btn"
           title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-          {isDark ? <Sun size={18} color="#F59E0B" /> : <Moon size={18} color="#1E60F2" />}
+          {isDark ? <Sun size={17} color="#F59E0B" /> : <Moon size={17} color="#1E60F2" />}
         </button>
       </div>
     </header>

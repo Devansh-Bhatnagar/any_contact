@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Delete, UserPlus, PhoneCall, History } from 'lucide-react';
+import { Phone, Delete, PhoneCall, Sparkles, User, Smartphone } from 'lucide-react';
 import { useContacts } from '../../context/ContactsContext';
 
 // DTMF tone frequencies for authentic phone audio
@@ -67,6 +67,11 @@ export const KeypadDialer: React.FC = () => {
     window.location.href = `tel:${number.trim()}`;
   };
 
+  const handleSpeedDial = (phoneNum: string, name: string) => {
+    setNumber(phoneNum);
+    playTone('1');
+  };
+
   const keys = [
     { digit: '1', sub: ' ' },
     { digit: '2', sub: 'ABC' },
@@ -87,161 +92,129 @@ export const KeypadDialer: React.FC = () => {
     : null;
 
   return (
-    <div
-      className="keypad-container"
-      style={{
-        maxWidth: '440px',
-        width: '100%',
-        margin: '0 auto',
-        backgroundColor: 'var(--surface)',
-        borderRadius: 'var(--radius-xl)',
-        border: '1px solid var(--border)',
-        boxShadow: 'var(--shadow-md)',
-        padding: '24px 20px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      {/* Brand Carrier Indicator */}
-      <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '8px', textAlign: 'center' }}>
-        Connecting via Leads Phone Book
-      </div>
+    <div className="dialer-page-wrapper">
+      {/* Dialer Main Column */}
+      <div className="keypad-container">
+        {/* Brand Carrier Indicator */}
+        <div className="keypad-carrier-tag">
+          Connecting via Leads Phone Book
+        </div>
 
-      {/* Number Display */}
-      <div style={{ minHeight: '56px', width: '100%', textAlign: 'center', marginBottom: '14px' }}>
-        <input
-          type="text"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          placeholder="Enter number..."
-          className="keypad-number-display"
-          style={{
-            width: '100%',
-            border: 'none',
-            background: 'transparent',
-            outline: 'none',
-            fontSize: '28px',
-            fontWeight: 800,
-            textAlign: 'center',
-            color: 'var(--text)',
-            letterSpacing: '0.06em',
-            fontFamily: 'JetBrains Mono, monospace',
-          }}
-        />
+        {/* Number Display */}
+        <div className="keypad-display-wrap">
+          <input
+            type="text"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            placeholder="Enter number..."
+            className="keypad-number-display"
+          />
 
-        {matchedContact && (
-          <div style={{ fontSize: '12.5px', color: 'var(--primary)', fontWeight: 700, marginTop: '2px' }}>
-            👤 {matchedContact.name} ({matchedContact.category || 'Contact'})
-          </div>
-        )}
-      </div>
+          {matchedContact && (
+            <div className="keypad-matched-contact">
+              👤 {matchedContact.name} ({matchedContact.category || 'Contact'})
+            </div>
+          )}
+        </div>
 
-      {/* Keypad Grid (3x4) */}
-      <div
-        className="keypad-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '12px',
-          width: '100%',
-          maxWidth: '320px',
-          marginBottom: '20px',
-        }}
-      >
-        {keys.map((k) => (
-          <button
-            key={k.digit}
-            type="button"
-            onClick={() => handleDigit(k.digit)}
-            className="keypad-btn hover:border-primary active:scale-90 active:bg-primary active:text-white"
-            style={{
-              aspectRatio: '1',
-              width: '70px',
-              height: '70px',
-              margin: '0 auto',
-              borderRadius: '50%',
-              backgroundColor: 'var(--surface-variant)',
-              border: '1px solid var(--border)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              transition: 'all 0.1s ease',
-              userSelect: 'none',
-            }}
-          >
-            <span style={{ fontSize: '22px', fontWeight: 700, lineHeight: 1, color: 'var(--text)' }}>
-              {k.digit}
-            </span>
-            <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-tertiary)', marginTop: '2px' }}>
-              {k.sub}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {/* Bottom Actions Row: Spacer / Call Button / Backspace */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          width: '100%',
-          maxWidth: '320px',
-        }}
-      >
-        <div style={{ width: '48px' }} />
-
-        {/* Green Dial Button */}
-        <button
-          type="button"
-          onClick={handleCall}
-          disabled={!number.trim()}
-          className={`keypad-call-btn ${number.trim() ? 'hover:scale-105 active:scale-95' : ''}`}
-          style={{
-            width: '64px',
-            height: '64px',
-            borderRadius: '50%',
-            backgroundColor: number.trim() ? '#16A34A' : 'var(--surface-variant)',
-            color: number.trim() ? '#FFFFFF' : 'var(--text-tertiary)',
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: number.trim() ? 'pointer' : 'default',
-            boxShadow: number.trim() ? '0 6px 20px rgba(22, 163, 74, 0.4)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-          title="Start Call"
-        >
-          <PhoneCall size={26} />
-        </button>
-
-        {/* Backspace Button */}
-        <div style={{ width: '48px', display: 'flex', justifyContent: 'center' }}>
-          {number ? (
+        {/* Keypad Grid (3x4) */}
+        <div className="keypad-grid">
+          {keys.map((k) => (
             <button
+              key={k.digit}
               type="button"
-              onClick={handleBackspace}
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '50%',
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--text-secondary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
-              title="Delete"
+              onClick={() => handleDigit(k.digit)}
+              className="keypad-btn hover:border-primary active:scale-90"
             >
-              <Delete size={22} />
+              <span className="keypad-digit">{k.digit}</span>
+              <span className="keypad-sub">{k.sub}</span>
             </button>
-          ) : null}
+          ))}
+        </div>
+
+        {/* Bottom Actions Row: Spacer / Call Button / Backspace */}
+        <div className="keypad-actions-row">
+          <div style={{ width: '48px' }} />
+
+          {/* Green Dial Button */}
+          <button
+            type="button"
+            onClick={handleCall}
+            disabled={!number.trim()}
+            className={`keypad-call-btn ${number.trim() ? 'active hover:scale-105 active:scale-95' : 'disabled'}`}
+            title="Start Call"
+          >
+            <PhoneCall size={24} />
+          </button>
+
+          {/* Backspace Button */}
+          <div style={{ width: '48px', display: 'flex', justifyContent: 'center' }}>
+            {number ? (
+              <button
+                type="button"
+                onClick={handleBackspace}
+                className="keypad-backspace-btn"
+                title="Delete"
+              >
+                <Delete size={20} />
+              </button>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      {/* Speed Dial / Recent Directory Side Panel (Shown on Desktop & Tablet >=840px) */}
+      <div className="dialer-side-directory">
+        <div className="dialer-side-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Sparkles size={14} style={{ color: 'var(--primary)' }} />
+            <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+              Speed Dial & Directory
+            </h3>
+          </div>
+          <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600 }}>
+            {contacts.length} Contacts
+          </span>
+        </div>
+
+        <div className="dialer-side-list">
+          {contacts.slice(0, 8).map((c) => (
+            <div
+              key={c.id}
+              onClick={() => handleSpeedDial(c.primaryPhone, c.name)}
+              className="dialer-speed-item hover:border-primary hover:bg-primary-light"
+            >
+              <img
+                src={c.avatar}
+                alt={c.name}
+                className="dialer-speed-avatar"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&q=80';
+                }}
+              />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {c.name}
+                </div>
+                <div style={{ fontSize: '11.5px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Smartphone size={11} />
+                  <span>{c.primaryPhone}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.location.href = `tel:${c.primaryPhone}`;
+                }}
+                className="dialer-speed-call-btn"
+                title={`Call ${c.name}`}
+              >
+                <Phone size={13} />
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContacts } from '../../context/ContactsContext';
-import { Shield, Ambulance, Flame, HeartHandshake, AlertTriangle, PhoneCall, ShieldAlert } from 'lucide-react';
+import { Shield, Ambulance, Flame, HeartHandshake, AlertTriangle, PhoneCall, ShieldAlert, Baby, Laptop } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
   Shield,
@@ -9,6 +9,8 @@ const iconMap: Record<string, React.ElementType> = {
   HeartHandshake,
   AlertTriangle,
   ShieldAlert,
+  Baby,
+  Laptop,
 };
 
 export const EmergencyRail: React.FC = () => {
@@ -19,24 +21,16 @@ export const EmergencyRail: React.FC = () => {
   };
 
   return (
-    <div className="emergency-rail-container" style={{ width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#EF4444',
-              boxShadow: '0 0 8px #EF4444',
-            }}
-          />
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 }}>
-            Emergency Quick Dispatch (24x7)
+    <div className="emergency-rail-container">
+      <div className="emergency-rail-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+          <span className="emergency-live-dot" />
+          <h3 className="emergency-rail-title">
+            Emergency Dispatch (24x7)
           </h3>
         </div>
-        <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600 }}>
-          Direct Access
+        <span className="emergency-rail-sub">
+          Toll-Free Access
         </span>
       </div>
 
@@ -50,49 +44,28 @@ export const EmergencyRail: React.FC = () => {
               className="emergency-quick-card hover:border-primary active:scale-[0.98]"
             >
               <div
+                className="emergency-quick-icon-wrap"
                 style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
                   backgroundColor: item.bgColor,
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
                   boxShadow: `0 2px 6px ${item.bgColor}35`,
                 }}
               >
-                <IconComp size={16} />
+                <IconComp size={15} />
               </div>
 
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div
-                  style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    color: 'var(--text)',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
+              <div className="emergency-quick-info">
+                <div className="emergency-quick-title">
                   {item.title}
                 </div>
                 <div
-                  style={{
-                    fontSize: '13px',
-                    fontWeight: 800,
-                    color: item.bgColor,
-                    fontFamily: 'monospace',
-                    lineHeight: 1.2,
-                  }}
+                  className="emergency-quick-number"
+                  style={{ color: item.bgColor }}
                 >
                   {item.number}
                 </div>
               </div>
 
-              <PhoneCall size={12} style={{ color: item.bgColor, flexShrink: 0 }} />
+              <PhoneCall size={12} style={{ color: item.bgColor, flexShrink: 0, opacity: 0.8 }} />
             </div>
           );
         })}

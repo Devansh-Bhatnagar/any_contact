@@ -245,14 +245,7 @@ export const EmergencyHubView: React.FC = () => {
       </div>
 
       {/* 3. RESPONSIVE EMERGENCY CARDS LIST / GRID */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: '12px',
-          width: '100%',
-        }}
-      >
+      <div className="emergency-hub-grid">
         {ALL_EMERGENCY_SERVICES.map((item) => {
           const IconComp = item.icon;
           return (

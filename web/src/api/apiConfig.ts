@@ -4,16 +4,16 @@
  */
 
 const getApiBaseUrl = (): string => {
-  // If explicitly configured via Vite env
   const metaEnv = (import.meta as any).env;
-  if (metaEnv && metaEnv.VITE_API_URL) {
-    return metaEnv.VITE_API_URL;
+
+  // When served on localhost / 127.0.0.1, use relative '/api' so Vite proxies directly to the local backend (http://localhost:5034)
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    return '/api';
   }
 
-  // When served on localhost, use the local proxy or backend port
-  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-    // Relative /api is handled by Vite proxy in dev
-    return '/api';
+  // If explicitly configured via Vite env (e.g. Vercel deployment)
+  if (metaEnv && metaEnv.VITE_API_URL) {
+    return metaEnv.VITE_API_URL;
   }
 
   // Production backend API

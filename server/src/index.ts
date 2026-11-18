@@ -2,5 +2,5 @@ import { app } from "./app";
 import { env } from "./config/env";
 
 app.listen(env.port, () => {
-  console.log(`Server listening on ${env.baseUrl}`);
+  console.log(`Server listening on http://localhost:${env.port}`);
 });

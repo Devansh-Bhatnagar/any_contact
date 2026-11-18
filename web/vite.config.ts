@@ -8,7 +8,8 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'https://any-contact.onrender.com',
+        // Automatically proxies to local backend on 5034 during local development
+        target: process.env.VITE_BACKEND_TARGET || 'http://localhost:5034',
         changeOrigin: true,
         secure: false,
       },

@@ -38,6 +38,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
   return (
     <div
       onClick={() => onSelect(business)}
+      className="business-card group hover:-translate-y-1 hover:shadow-lg"
       style={{
         backgroundColor: 'var(--surface)',
         borderRadius: 'var(--radius-lg)',
@@ -52,15 +53,17 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
+        width: '100%',
+        boxSizing: 'border-box',
       }}
-      className="group hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Top Image Banner */}
       <div
+        className="business-card-media"
         style={{
           position: 'relative',
           width: '100%',
-          height: '170px',
+          height: '175px',
           overflow: 'hidden',
           backgroundColor: '#0F172A',
         }}
@@ -87,33 +90,39 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
             position: 'absolute',
             inset: 0,
             background:
-              'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.65) 100%)',
+              'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.7) 100%)',
           }}
         />
 
-        {/* Top Badges */}
+        {/* Top Badges (Category Chip & Active Deals Badge) */}
         <div
           style={{
             position: 'absolute',
-            top: '12px',
-            left: '12px',
-            right: '12px',
+            top: '10px',
+            left: '10px',
+            right: '10px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            gap: '6px',
+            flexWrap: 'wrap',
           }}
         >
           {/* Category Chip */}
           <span
             style={{
-              backgroundColor: 'rgba(15, 23, 42, 0.75)',
+              backgroundColor: 'rgba(15, 23, 42, 0.8)',
               backdropFilter: 'blur(8px)',
               color: '#FFFFFF',
-              fontSize: '11.5px',
+              fontSize: '11px',
               fontWeight: 700,
-              padding: '4px 10px',
+              padding: '3px 9px',
               borderRadius: 'var(--radius-full)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: '140px',
             }}
           >
             {business.category}
@@ -123,25 +132,26 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
           {hasOffers && (
             <div
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                backgroundColor: 'rgba(255, 255, 255, 0.96)',
                 backdropFilter: 'blur(6px)',
                 padding: '3px 8px',
                 borderRadius: 'var(--radius-full)',
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: '4px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
+                flexShrink: 0,
               }}
             >
               <OfferFlagBadge size="sm" />
-              <span style={{ fontSize: '11px', fontWeight: 800, color: '#047857' }}>
+              <span style={{ fontSize: '10.5px', fontWeight: 800, color: '#047857' }}>
                 DEALS ACTIVE
               </span>
             </div>
           )}
         </div>
 
-        {/* Bottom Image Stats (Rating & City) */}
+        {/* Bottom Image Stats (City & Rating) */}
         <div
           style={{
             position: 'absolute',
@@ -162,7 +172,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
           {business.rating && (
             <div
               style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: '3px',
                 backgroundColor: 'rgba(245, 158, 11, 0.95)',
@@ -186,30 +196,32 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
       </div>
 
       {/* Card Content Body */}
-      <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
         {/* Business Name with Verified and Offer Flag */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', marginBottom: '6px', minWidth: 0 }}>
           <h3
             style={{
-              fontSize: '16.5px',
+              fontSize: '16px',
               fontWeight: 700,
               color: 'var(--text)',
               lineHeight: 1.35,
               flex: 1,
+              minWidth: 0,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
             }}
+            title={business.name}
           >
             {business.name}
           </h3>
 
           {/* Wavy Green Flag next to name if offers exist */}
-          {hasOffers && <OfferFlagBadge size="md" />}
+          {hasOffers && <OfferFlagBadge size="sm" />}
 
           {business.verified && (
             <span title="Verified Business" style={{ display: 'inline-flex', flexShrink: 0, marginTop: '2px' }}>
-              <CheckCircle2
-                size={18}
-                style={{ color: '#2563EB' }}
-              />
+              <CheckCircle2 size={16} style={{ color: '#2563EB' }} />
             </span>
           )}
         </div>
@@ -225,6 +237,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
+            minHeight: '34px',
           }}
         >
           {business.address}
@@ -234,11 +247,13 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
         {hasOffers && (
           <div
             style={{
-              marginBottom: '14px',
+              marginBottom: '12px',
               backgroundColor: 'var(--surface-variant)',
               borderRadius: 'var(--radius-md)',
               padding: '8px 10px',
               border: '1px solid var(--border)',
+              minWidth: 0,
+              overflow: 'hidden',
             }}
           >
             <div
@@ -246,13 +261,13 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
-                marginBottom: '6px',
+                marginBottom: '5px',
               }}
             >
-              <Sparkles size={13} style={{ color: '#10B981' }} />
+              <Sparkles size={12} style={{ color: '#10B981' }} />
               <span
                 style={{
-                  fontSize: '11px',
+                  fontSize: '10.5px',
                   fontWeight: 800,
                   color: '#059669',
                   textTransform: 'uppercase',
@@ -263,7 +278,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
               </span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
               {business.offers!.slice(0, 2).map((offer, idx) => {
                 const colorTheme = getOfferColor(offer, idx);
                 return (
@@ -272,25 +287,36 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '12px',
+                      gap: '5px',
+                      fontSize: '11.5px',
                       fontWeight: 600,
                       color: colorTheme.primary,
                       backgroundColor: colorTheme.badgeBg,
                       border: `1px solid ${colorTheme.border}`,
-                      padding: '3px 8px',
-                      borderRadius: '6px',
+                      padding: '3px 7px',
+                      borderRadius: '5px',
+                      minWidth: 0,
+                      overflow: 'hidden',
                     }}
                   >
                     <OfferFlagBadge size="sm" />
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <span
+                      style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        minWidth: 0,
+                        flex: 1,
+                      }}
+                      title={offer}
+                    >
                       {offer}
                     </span>
                   </div>
                 );
               })}
               {business.offers!.length > 2 && (
-                <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600, paddingLeft: '4px' }}>
+                <span style={{ fontSize: '10.5px', color: 'var(--text-tertiary)', fontWeight: 600, paddingLeft: '4px' }}>
                   +{business.offers!.length - 2} more deals available
                 </span>
               )}
@@ -307,11 +333,13 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
               gap: '6px',
               fontSize: '12px',
               color: 'var(--text-tertiary)',
-              marginBottom: '14px',
+              marginBottom: '12px',
             }}
           >
-            <Clock size={13} />
-            <span>{business.openingHours}</span>
+            <Clock size={12} style={{ flexShrink: 0 }} />
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {business.openingHours}
+            </span>
           </div>
         )}
 
@@ -336,19 +364,20 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              padding: '9px 12px',
+              padding: '9px 10px',
               borderRadius: 'var(--radius-md)',
               backgroundColor: '#16A34A',
               color: '#FFFFFF',
               border: 'none',
               fontWeight: 700,
-              fontSize: '12.5px',
+              fontSize: '12px',
               cursor: 'pointer',
               transition: 'opacity 0.2s ease',
+              minWidth: 0,
             }}
-            className="hover:opacity-90"
+            className="hover:opacity-90 active:scale-95"
           >
-            <Phone size={14} />
+            <Phone size={13} style={{ flexShrink: 0 }} />
             <span>Call</span>
           </button>
 
@@ -362,19 +391,20 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              padding: '9px 12px',
+              padding: '9px 10px',
               borderRadius: 'var(--radius-md)',
               backgroundColor: '#25D366',
               color: '#FFFFFF',
               border: 'none',
               fontWeight: 700,
-              fontSize: '12.5px',
+              fontSize: '12px',
               cursor: 'pointer',
               transition: 'opacity 0.2s ease',
+              minWidth: 0,
             }}
-            className="hover:opacity-90"
+            className="hover:opacity-90 active:scale-95"
           >
-            <MessageCircle size={14} />
+            <MessageCircle size={13} style={{ flexShrink: 0 }} />
             <span>WhatsApp</span>
           </button>
 
@@ -389,13 +419,17 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
               color: 'var(--text)',
               border: '1px solid var(--border)',
               fontWeight: 600,
-              fontSize: '12.5px',
+              fontSize: '12px',
               cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
             }}
-            className="hover:bg-primary hover:text-white"
+            className="hover:bg-primary hover:text-white active:scale-95"
             title="View Details"
           >
-            <ExternalLink size={14} />
+            <ExternalLink size={13} />
           </button>
         </div>
       </div>
