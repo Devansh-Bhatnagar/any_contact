@@ -8,7 +8,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'https://api.leadsphonebook.com',
+        target: process.env.VITE_API_URL || 'https://any-contact.onrender.com',
         changeOrigin: true,
         secure: false,
       },

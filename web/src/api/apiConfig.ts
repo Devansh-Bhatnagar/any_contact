@@ -17,11 +17,11 @@ const getApiBaseUrl = (): string => {
   }
 
   // Production backend API
-  return 'https://api.leadsphonebook.com/api';
+  return 'https://any-contact.onrender.com/api';
 };
 
 export const API_BASE_URL = getApiBaseUrl();
-export const API_FALLBACK_URL = 'https://api.leadsphonebook.com/api';
+export const API_FALLBACK_URL = 'https://any-contact.onrender.com/api';
 
 export const API_ENDPOINTS = {
   // Health

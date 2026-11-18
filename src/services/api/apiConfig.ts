@@ -3,10 +3,10 @@
  * Base URL and endpoint route definitions
  */
 
-// https://api.leadsphonebook.com is the primary production backend
-export const API_ROOT_URL = 'https://api.leadsphonebook.com';
+// https://any-contact.onrender.com is the Render production backend
+export const API_ROOT_URL = 'https://any-contact.onrender.com';
 export const API_BASE_URL = `${API_ROOT_URL}/api`;
-export const API_FALLBACK_URL = 'https://api.addphonenumber.in/api';
+export const API_FALLBACK_URL = 'https://api.leadsphonebook.com/api';
 
 export const API_ENDPOINTS = {
   // Health check (served at root /health on API_ROOT_URL)
