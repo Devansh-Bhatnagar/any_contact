@@ -30,7 +30,6 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
 import { Icon } from '../components/common/Icon';
-import { AppLogo } from '../components/common/AppLogo';
 import { ALL_PHONE_CONTACTS, RECENTLY_VIEWED_CONTACTS } from '../data/mockPhoneBook';
 import { PhoneBookContact, EmergencyItem } from '../types/phoneBook';
 import { EmergencyAccessRail } from '../components/phonebook/EmergencyAccessRail';
@@ -675,17 +674,7 @@ export const ContactsScreen: React.FC = () => {
 
       {/* Screen 1 Header with Meta clean layout */}
       <View style={[styles.topHeader, { paddingTop: topInset + 12 }]}>
-        <View style={styles.headerLeft}>
-          <AppLogo size={34} showShadow={false} />
-          <Text
-            style={[
-              styles.headerTitle,
-              { color: isDark ? '#E4E6EB' : '#050505' },
-            ]}
-          >
-            Leads Phone Book
-          </Text>
-        </View>
+        <View style={{ flex: 1 }} />
 
         <View style={styles.headerRight}>
           {/* Country Flag Button */}
@@ -1350,7 +1339,9 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 8,
+    flex: 1,
+    marginRight: 8,
   },
   appIconCircle: {
     width: 32,
@@ -1361,7 +1352,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '800',
     letterSpacing: -0.3,
   },

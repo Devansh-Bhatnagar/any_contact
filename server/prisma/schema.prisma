@@ -1,0 +1,496 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  BUSINESS_OWNER
+  ADMIN
+}
+
+enum BusinessStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PromotionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  RUNNING
+  COMPLETED
+}
+
+enum MediaType {
+  LOGO
+  COVER
+  GALLERY
+}
+
+enum SocialPlatform {
+  FACEBOOK
+  INSTAGRAM
+  LINKEDIN
+  YOUTUBE
+  TWITTER
+}
+
+enum NotificationType {
+  SUCCESS
+  ERROR
+  INFO
+  WARNING
+}
+
+model User {
+  id                  String         @id @default(uuid())
+  email               String         @unique
+  passwordHash        String
+  name                String
+  phone               String?
+  area                String?
+  pincode             String?
+  role                UserRole       @default(BUSINESS_OWNER)
+  suspended           Boolean        @default(false)
+  refreshToken        String?
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  businesses          Business[]
+  notifications       Notification[]
+  leads               Lead[]
+  storyViews          StatusStoryView[]
+  favorites           BusinessFavorite[]
+  customOrders        CustomerBusinessOrder[]
+  reviews             BusinessReview[]
+  customerChats       BusinessChatConversation[]
+  notificationPref    CustomerNotificationPreference?
+  maskedCalls         MaskedCallSession[]
+}
+
+model Business {
+  id                       String         @id @default(uuid())
+  owner                    User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId                  String
+  companyName              String
+  ownerName                String
+  category                 String
+  description              String?
+  phone                    String?
+  email                    String?
+  website                  String?
+  address                  String?
+  city                     String?
+  state                    String?
+  area                     String?
+  pincode                  String?
+  statusLine               String?
+  googleMapsUrl            String?
+  quickReplies             Json?
+  manualStatus             String?        @default("AUTO")
+  workingHours             Json?
+  status                   BusinessStatus @default(DRAFT)
+  verified                 Boolean        @default(false)
+  verificationRequested    Boolean        @default(false)
+  verificationNotes        String?
+  verificationRequestedAt  DateTime?
+  verifiedAt               DateTime?
+  verifiedByAdminId        String?
+  profileCompletionPercent Int            @default(0)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+
+  media             BusinessMedia[]
+  socialLinks       SocialLink[]
+  services          Service[]
+  products          Product[]
+  promotions        Promotion[]
+  statusStories     StatusStory[]
+  specialOffers     SpecialOffer[]
+  reviews           BusinessReview[]
+  favorites         BusinessFavorite[]
+  customOrders      CustomerBusinessOrder[]
+  chatConversations BusinessChatConversation[]
+  maskedCalls       MaskedCallSession[]
+  areaNotifications AreaNotificationLog[]
+
+  @@index([ownerId])
+  @@index([category])
+  @@index([city])
+  @@index([area])
+  @@index([pincode])
+  @@index([status])
+  @@index([verified])
+}
+
+model BusinessMedia {
+  id         String    @id @default(uuid())
+  business   Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId String
+  type       MediaType
+  url        String
+  createdAt  DateTime  @default(now())
+
+  @@index([businessId])
+}
+
+model SocialLink {
+  id         String         @id @default(uuid())
+  business   Business       @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId String
+  platform   SocialPlatform
+  url        String
+
+  @@unique([businessId, platform])
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId  String
+  name        String
+  description String?
+  price       Decimal? @db.Decimal(10, 2)
+
+  @@index([businessId])
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId  String
+  name        String
+  description String?
+  price       Decimal? @db.Decimal(10, 2)
+  imageUrl    String?
+
+  @@index([businessId])
+}
+
+model Promotion {
+  id          String          @id @default(uuid())
+  business    Business        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId  String
+  title       String
+  description String?
+  status      PromotionStatus @default(PENDING)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime        @default(now())
+
+  @@index([businessId])
+  @@index([status])
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+}
+
+model ReferenceLookup {
+  id          String   @id @default(uuid())
+  group       String
+  code        String
+  label       String
+  description String?
+  sortOrder   Int      @default(0)
+  isDefault   Boolean  @default(false)
+  meta        Json?
+  createdAt   DateTime @default(now())
+
+  @@unique([group, code])
+  @@index([group])
+}
+
+model StatusStory {
+  id            String            @id @default(uuid())
+  business      Business          @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId    String
+  title         String
+  description   String
+  offerBadge    String?
+  price         String?
+  imageUrl      String?
+  gradientStart String            @default("#00236F")
+  gradientEnd   String            @default("#0051D5")
+  viewsCount    Int               @default(0)
+  duration      String?           @default("1_DAY")
+  isActive      Boolean           @default(true)
+  expiresAt     DateTime
+  createdAt     DateTime          @default(now())
+  views         StatusStoryView[]
+
+  @@index([businessId])
+  @@index([expiresAt])
+  @@index([isActive])
+}
+
+model StatusStoryView {
+  id        String      @id @default(uuid())
+  story     StatusStory @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  storyId   String
+  viewer    User        @relation(fields: [viewerId], references: [id], onDelete: Cascade)
+  viewerId  String
+  viewedAt  DateTime    @default(now())
+
+  @@unique([storyId, viewerId])
+}
+
+model Lead {
+  id            String   @id @default(uuid())
+  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId       String
+  businessName  String
+  contactPerson String
+  phone         String
+  email         String?
+  category      String
+  city          String?
+  stageCode     String   @default("NEW")
+  note          String?
+  lastActiveAt  DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([stageCode])
+}
+
+model UiComponentConfig {
+  id           String   @id @default(uuid())
+  screenKey    String
+  componentKey String
+  title        String?
+  type         String
+  sortOrder    Int      @default(0)
+  props        Json?
+  isEnabled    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@unique([screenKey, componentKey])
+  @@index([screenKey])
+}
+
+model CallRecord {
+  id          String   @id @default(uuid())
+  name        String
+  number      String
+  tag         String?
+  tagColor    String?
+  direction   String   // "OUTGOING", "INCOMING", "MISSED"
+  durationSec Int      @default(0)
+  isVerified  Boolean  @default(false)
+  isLead      Boolean  @default(false)
+  category    String?
+  timestamp   DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([number])
+  @@index([direction])
+  @@index([timestamp])
+}
+
+model Area {
+  id        String   @id @default(uuid())
+  name      String   // e.g. "Indiranagar", "Koramangala", "HSR Layout"
+  city      String   // e.g. "Bengaluru"
+  pincode   String   // e.g. "560038"
+  state     String   // e.g. "Karnataka"
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@unique([name, pincode])
+  @@index([name])
+  @@index([pincode])
+  @@index([city])
+}
+
+model SpecialOffer {
+  id              String    @id @default(uuid())
+  business        Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId      String
+  title           String
+  description     String?
+  discountCode    String?
+  discountPercent Int?
+  offerBadge      String?   // "1+1 FREE", "50% OFF", "CHRISTMAS SPECIAL"
+  bannerUrl       String?
+  startDate       DateTime
+  endDate         DateTime
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([businessId])
+  @@index([startDate, endDate])
+  @@index([isActive])
+}
+
+model BusinessReview {
+  id            String    @id @default(uuid())
+  business      Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId    String
+  customer      User      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId    String
+  customerName  String    // Masked customer name e.g. "Customer A."
+  rating        Int       // 1 to 5
+  comment       String
+  businessReply String?
+  repliedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([businessId])
+  @@index([customerId])
+}
+
+model BusinessFavorite {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId String
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, businessId])
+  @@index([userId])
+  @@index([businessId])
+}
+
+model CustomerBusinessOrder {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId  String
+  customOrder Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, businessId])
+  @@index([userId])
+}
+
+model BusinessChatConversation {
+  id                  String                @id @default(uuid())
+  business            Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId          String
+  customer            User                  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId          String
+  customerMaskedPhone String                // Always masked, e.g. "+91 987•• ••210"
+  customerDisplayName String                // e.g. "Customer C-492"
+  lastMessageText     String?
+  lastMessageAt       DateTime              @default(now())
+  customerUnreadCount Int                   @default(0)
+  businessUnreadCount Int                   @default(0)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  messages            BusinessChatMessage[]
+
+  @@unique([businessId, customerId])
+  @@index([businessId])
+  @@index([customerId])
+  @@index([lastMessageAt])
+}
+
+model BusinessChatMessage {
+  id               String                   @id @default(uuid())
+  conversation     BusinessChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId   String
+  senderType       String                   // "CUSTOMER" or "BUSINESS"
+  senderId         String                   // User ID of sender
+  messageType      String                   @default("TEXT") // "TEXT", "QUICK_REPLY", "LOCATION"
+  text             String
+  quickReplyOption String?
+  latitude         Float?
+  longitude        Float?
+  locationAddress  String?
+  locationMapUrl   String?
+  read             Boolean                  @default(false)
+  createdAt        DateTime                 @default(now())
+
+  @@index([conversationId])
+  @@index([createdAt])
+}
+
+model MaskedCallSession {
+  id              String   @id @default(uuid())
+  business        Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId      String
+  customer        User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId      String
+  maskedCallerId  String   // e.g. "PROXY-CALL-+91-987XX-XXXX0"
+  relayToken      String   @unique
+  businessPhone   String
+  status          String   @default("INITIATED") // "INITIATED", "RINGING", "CONNECTED", "ENDED"
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+
+  @@index([businessId])
+  @@index([customerId])
+  @@index([relayToken])
+}
+
+model CustomerNotificationPreference {
+  id                     String   @id @default(uuid())
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                 String   @unique
+  area                   String
+  pincode                String?
+  offersEnabled          Boolean  @default(true)
+  statusUpdatesEnabled   Boolean  @default(true)
+  openCloseAlertsEnabled Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([area])
+  @@index([pincode])
+}
+
+model AreaNotificationLog {
+  id             String   @id @default(uuid())
+  business       Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId     String
+  area           String
+  type           String   // "OFFER", "STATUS", "OPEN_CLOSE"
+  title          String
+  message        String
+  recipientCount Int      @default(0) // Only aggregate count, no customer list!
+  createdAt      DateTime @default(now())
+
+  @@index([businessId])
+  @@index([area])
+}
+
+model CategoryQuickReply {
+  id           String   @id @default(uuid())
+  category     String   @unique
+  questionText String
+  options      Json     // Array of strings
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([category])
+}
