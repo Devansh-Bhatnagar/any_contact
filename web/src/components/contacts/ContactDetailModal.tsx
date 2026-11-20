@@ -3,7 +3,6 @@ import { Contact } from '../../types/contact';
 import { OfferFlagBadge } from '../common/OfferFlagBadge';
 import {
   X,
-  Phone,
   MessageCircle,
   Mail,
   Star,
@@ -38,10 +37,6 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
     navigator.clipboard.writeText(num);
     setCopiedNumber(num);
     setTimeout(() => setCopiedNumber(null), 2000);
-  };
-
-  const handleCall = (num: string) => {
-    window.location.href = `tel:${num}`;
   };
 
   const handleWhatsApp = (num: string) => {
@@ -291,25 +286,6 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
                       title="Copy number"
                     >
                       {copiedNumber === p.number ? <Check size={16} color="#16A34A" /> : <Copy size={16} />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleCall(p.number)}
-                      style={{
-                        padding: '6px 12px',
-                        backgroundColor: '#16A34A',
-                        color: '#FFFFFF',
-                        border: 'none',
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                      }}
-                    >
-                      <Phone size={13} /> Call
                     </button>
                     <button
                       type="button"

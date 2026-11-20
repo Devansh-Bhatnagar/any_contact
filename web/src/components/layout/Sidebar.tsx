@@ -3,7 +3,6 @@ import {
   Users,
   Building2,
   Tag,
-  PhoneCall,
   Shield,
   PlusCircle,
   Sun,
@@ -17,7 +16,7 @@ import { useBusinesses } from '../../context/BusinessContext';
 import { useContacts } from '../../context/ContactsContext';
 import { OfferFlagBadge } from '../common/OfferFlagBadge';
 
-export type NavTab = 'contacts' | 'businesses' | 'offers' | 'dialer' | 'emergency';
+export type NavTab = 'contacts' | 'businesses' | 'offers' | 'emergency';
 
 interface SidebarProps {
   activeTab: NavTab;
@@ -59,11 +58,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: Tag,
       badge: offersCount,
       hasFlag: true,
-    },
-    {
-      id: 'dialer' as NavTab,
-      label: 'Keypad Dialer',
-      icon: PhoneCall,
     },
     {
       id: 'emergency' as NavTab,

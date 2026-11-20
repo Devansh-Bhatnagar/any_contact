@@ -5,14 +5,12 @@ import {
   Flame,
   HeartHandshake,
   AlertTriangle,
-  PhoneCall,
   ShieldAlert,
   Baby,
   Laptop,
   PhoneForwarded,
   MapPin,
   CheckCircle2,
-  Phone,
   LifeBuoy,
 } from 'lucide-react';
 
@@ -121,10 +119,6 @@ const ALL_EMERGENCY_SERVICES: EmergencyItem[] = [
 ];
 
 export const EmergencyHubView: React.FC = () => {
-  const handleCall = (num: string) => {
-    window.location.href = `tel:${num}`;
-  };
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '960px', margin: '0 auto', width: '100%' }}>
       {/* 1. UNIFIED NATIONAL 112 HERO BANNER */}
@@ -179,37 +173,30 @@ export const EmergencyHubView: React.FC = () => {
           >
             <div style={{ flex: 1, minWidth: '220px' }}>
               <h1 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '6px', lineHeight: 1.25 }}>
-                National Emergency Support: Dial 112
+                National Emergency Support: 112
               </h1>
               <p style={{ fontSize: '13px', opacity: 0.92, lineHeight: 1.5, margin: 0 }}>
                 India's single unified emergency number connecting Police, Fire, Ambulance & Women Safety instantly across all states.
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={() => handleCall('112')}
+            <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px',
                 backgroundColor: '#FFFFFF',
                 color: '#DC2626',
-                border: 'none',
                 borderRadius: 'var(--radius-full)',
-                padding: '12px 24px',
-                fontSize: '15px',
+                padding: '10px 22px',
+                fontSize: '16px',
                 fontWeight: 800,
-                cursor: 'pointer',
                 boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
-                transition: 'transform 0.15s ease',
                 flexShrink: 0,
+                letterSpacing: '0.02em',
               }}
-              className="hover:scale-105 active:scale-95"
             >
-              <PhoneCall size={18} />
-              <span>Call 112 Now</span>
-            </button>
+              <span>Toll-Free: 112</span>
+            </div>
           </div>
         </div>
       </div>
@@ -251,7 +238,6 @@ export const EmergencyHubView: React.FC = () => {
           return (
             <div
               key={item.id}
-              onClick={() => handleCall(item.number)}
               style={{
                 backgroundColor: 'var(--surface)',
                 borderRadius: 'var(--radius-lg)',
@@ -260,14 +246,11 @@ export const EmergencyHubView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
                 boxShadow: 'var(--shadow-sm)',
                 boxSizing: 'border-box',
                 width: '100%',
                 minWidth: 0,
               }}
-              className="hover:border-primary hover:-translate-y-0.5 hover:shadow-md"
             >
               {/* Emergency Icon */}
               <div
@@ -312,44 +295,34 @@ export const EmergencyHubView: React.FC = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '4px',
-                    fontSize: '14px',
-                    fontWeight: 800,
-                    color: item.bgColor,
-                    fontFamily: 'monospace',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    color: 'var(--text-secondary)',
                   }}
                 >
-                  <span>Dial {item.number}</span>
+                  <span>Official Helpline</span>
                 </div>
               </div>
 
-              {/* Quick Call Action Pill */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCall(item.number);
-                }}
+              {/* Helpline Number Tag */}
+              <div
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '5px',
-                  backgroundColor: '#16A34A',
-                  color: '#FFFFFF',
-                  border: 'none',
+                  padding: '6px 14px',
                   borderRadius: 'var(--radius-full)',
-                  padding: '8px 12px',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
+                  backgroundColor: item.badgeBg,
+                  color: item.bgColor,
+                  fontSize: '14px',
+                  fontWeight: 800,
+                  fontFamily: 'monospace',
+                  border: `1px solid ${item.bgColor}40`,
                   flexShrink: 0,
-                  boxShadow: '0 2px 8px rgba(22, 163, 74, 0.35)',
+                  letterSpacing: '0.04em',
                 }}
-                className="hover:scale-105 active:scale-95"
-                title={`Call ${item.title}`}
               >
-                <Phone size={13} />
-                <span>Call</span>
-              </button>
+                <span>{item.number}</span>
+              </div>
             </div>
           );
         })}

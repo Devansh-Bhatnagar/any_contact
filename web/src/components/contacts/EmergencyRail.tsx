@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContacts } from '../../context/ContactsContext';
-import { Shield, Ambulance, Flame, HeartHandshake, AlertTriangle, PhoneCall, ShieldAlert, Baby, Laptop } from 'lucide-react';
+import { Shield, Ambulance, Flame, HeartHandshake, AlertTriangle, ShieldAlert, Baby, Laptop } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
   Shield,
@@ -16,21 +16,17 @@ const iconMap: Record<string, React.ElementType> = {
 export const EmergencyRail: React.FC = () => {
   const { emergencyContacts } = useContacts();
 
-  const handleCall = (number: string) => {
-    window.location.href = `tel:${number}`;
-  };
-
   return (
     <div className="emergency-rail-container">
       <div className="emergency-rail-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
           <span className="emergency-live-dot" />
           <h3 className="emergency-rail-title">
-            Emergency Dispatch (24x7)
+            National Helplines (24x7)
           </h3>
         </div>
         <span className="emergency-rail-sub">
-          Toll-Free Access
+          Official Toll-Free
         </span>
       </div>
 
@@ -40,8 +36,7 @@ export const EmergencyRail: React.FC = () => {
           return (
             <div
               key={item.id}
-              onClick={() => handleCall(item.number)}
-              className="emergency-quick-card hover:border-primary active:scale-[0.98]"
+              className="emergency-quick-card"
             >
               <div
                 className="emergency-quick-icon-wrap"
@@ -64,8 +59,6 @@ export const EmergencyRail: React.FC = () => {
                   {item.number}
                 </div>
               </div>
-
-              <PhoneCall size={12} style={{ color: item.bgColor, flexShrink: 0, opacity: 0.8 }} />
             </div>
           );
         })}

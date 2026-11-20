@@ -37,10 +37,6 @@ export const BusinessDetailModal: React.FC<BusinessDetailModalProps> = ({
 
   const hasOffers = Boolean(business.offers && business.offers.length > 0);
 
-  const handleCall = () => {
-    window.location.href = `tel:${business.phone}`;
-  };
-
   const handleWhatsApp = () => {
     const cleanPhone = business.phone.replace(/[^0-9]/g, '');
     const message = encodeURIComponent(
@@ -453,28 +449,6 @@ export const BusinessDetailModal: React.FC<BusinessDetailModalProps> = ({
         >
           <button
             type="button"
-            onClick={handleCall}
-            style={{
-              flex: 1,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '12px',
-              borderRadius: 'var(--radius-md)',
-              backgroundColor: '#16A34A',
-              color: '#FFFFFF',
-              border: 'none',
-              fontWeight: 700,
-              fontSize: '14px',
-              cursor: 'pointer',
-            }}
-          >
-            <Phone size={17} /> Call Now
-          </button>
-
-          <button
-            type="button"
             onClick={handleWhatsApp}
             style={{
               flex: 1,
@@ -492,7 +466,7 @@ export const BusinessDetailModal: React.FC<BusinessDetailModalProps> = ({
               cursor: 'pointer',
             }}
           >
-            <MessageCircle size={17} /> WhatsApp
+            <MessageCircle size={18} /> Chat on WhatsApp
           </button>
 
           <button

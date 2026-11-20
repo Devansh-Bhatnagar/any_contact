@@ -3,7 +3,7 @@ import { useBusinesses } from '../../context/BusinessContext';
 import { Business } from '../../types/business';
 import { OfferFlagBadge } from '../common/OfferFlagBadge';
 import { getOfferColor } from '../../constants/offerColors';
-import { Sparkles, MessageCircle, Phone, Tag, Building2, MapPin } from 'lucide-react';
+import { Sparkles, MessageCircle, Tag, Building2, MapPin } from 'lucide-react';
 
 interface OffersHubViewProps {
   onSelectBusiness: (b: Business) => void;
@@ -221,29 +221,6 @@ export const OffersHubView: React.FC<OffersHubViewProps> = ({ onSelectBusiness }
                 >
                   <MessageCircle size={14} style={{ flexShrink: 0 }} />
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Claim on WhatsApp</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => (window.location.href = `tel:${item.business.phone}`)}
-                  style={{
-                    padding: '9px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    backgroundColor: 'var(--surface-variant)',
-                    color: 'var(--text)',
-                    border: '1px solid var(--border)',
-                    fontWeight: 600,
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}
-                  className="hover:bg-primary hover:text-white active:scale-95"
-                  title={`Direct Call: ${item.business.phone}`}
-                >
-                  <Phone size={14} />
                 </button>
               </div>
             </div>

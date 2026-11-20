@@ -3,7 +3,6 @@ import { Business } from '../../types/business';
 import { OfferFlagBadge } from '../common/OfferFlagBadge';
 import { getOfferColor } from '../../constants/offerColors';
 import {
-  Phone,
   MessageCircle,
   MapPin,
   Star,
@@ -20,11 +19,6 @@ interface BusinessCardProps {
 
 export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }) => {
   const hasOffers = Boolean(business.offers && business.offers.length > 0);
-
-  const handleCall = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    window.location.href = `tel:${business.phone}`;
-  };
 
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -354,33 +348,6 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
             borderTop: '1px solid var(--divider)',
           }}
         >
-          {/* Call Button */}
-          <button
-            type="button"
-            onClick={handleCall}
-            style={{
-              flex: 1,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              padding: '9px 10px',
-              borderRadius: 'var(--radius-md)',
-              backgroundColor: '#16A34A',
-              color: '#FFFFFF',
-              border: 'none',
-              fontWeight: 700,
-              fontSize: '12px',
-              cursor: 'pointer',
-              transition: 'opacity 0.2s ease',
-              minWidth: 0,
-            }}
-            className="hover:opacity-90 active:scale-95"
-          >
-            <Phone size={13} style={{ flexShrink: 0 }} />
-            <span>Call</span>
-          </button>
-
           {/* WhatsApp Button */}
           <button
             type="button"
@@ -391,21 +358,21 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, onSelect }
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              padding: '9px 10px',
+              padding: '9px 12px',
               borderRadius: 'var(--radius-md)',
               backgroundColor: '#25D366',
               color: '#FFFFFF',
               border: 'none',
               fontWeight: 700,
-              fontSize: '12px',
+              fontSize: '12.5px',
               cursor: 'pointer',
               transition: 'opacity 0.2s ease',
               minWidth: 0,
             }}
             className="hover:opacity-90 active:scale-95"
           >
-            <MessageCircle size={13} style={{ flexShrink: 0 }} />
-            <span>WhatsApp</span>
+            <MessageCircle size={14} style={{ flexShrink: 0 }} />
+            <span>Connect on WhatsApp</span>
           </button>
 
           {/* Details Button */}

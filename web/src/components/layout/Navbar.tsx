@@ -25,10 +25,9 @@ interface NavbarProps {
 }
 
 const tabMeta: Record<NavTab, { title: string; subtitle: string }> = {
-  contacts: { title: 'Contacts Directory', subtitle: 'Verified phonebook & smart speed dial' },
+  contacts: { title: 'Contacts Directory', subtitle: 'Verified marketing contacts & business network' },
   businesses: { title: 'Business Leads', subtitle: 'Explore local shops, verified services & deals' },
   offers: { title: 'Exclusive Deals', subtitle: 'Promotions, buy-1-get-1 & festive combo savings' },
-  dialer: { title: 'Smart Keypad Dialer', subtitle: 'Authentic DTMF tone calling & speed contacts' },
   emergency: { title: '24x7 Emergency Hub', subtitle: 'Unified 112 & official national helplines' },
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Contact } from '../../types/contact';
 import { OfferFlagBadge } from '../common/OfferFlagBadge';
-import { Phone, MessageCircle, Star, Mail, Smartphone } from 'lucide-react';
+import { MessageCircle, Star, Mail, Smartphone } from 'lucide-react';
 
 interface ContactCardProps {
   contact: Contact;
@@ -14,11 +14,6 @@ export const ContactCard: React.FC<ContactCardProps> = ({
   onSelect,
   onToggleFavorite,
 }) => {
-  const handleCall = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    window.location.href = `tel:${contact.primaryPhone}`;
-  };
-
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
     const cleanPhone = contact.primaryPhone.replace(/[^0-9]/g, '');
@@ -98,7 +93,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
         ) : null}
       </div>
 
-      {/* Quick Action Buttons (Star, Call, WhatsApp) */}
+      {/* Quick Action Buttons (Star, WhatsApp) */}
       <div className="contact-card-actions">
         <button
           type="button"
@@ -107,15 +102,6 @@ export const ContactCard: React.FC<ContactCardProps> = ({
           title={contact.isFavorite ? 'Remove Favorite' : 'Mark Favorite'}
         >
           <Star size={15} fill={contact.isFavorite ? '#F59E0B' : 'transparent'} />
-        </button>
-
-        <button
-          type="button"
-          onClick={handleCall}
-          className="contact-card-action-btn call-btn"
-          title={`Call ${contact.name}`}
-        >
-          <Phone size={14} />
         </button>
 
         <button

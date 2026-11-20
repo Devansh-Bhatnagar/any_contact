@@ -15,7 +15,6 @@ import { BusinessCard } from './components/business/BusinessCard';
 import { BusinessDetailModal } from './components/business/BusinessDetailModal';
 import { RegisterBusinessModal } from './components/business/RegisterBusinessModal';
 import { OffersHubView } from './components/offers/OffersHubView';
-import { KeypadDialer } from './components/dialer/KeypadDialer';
 import { EmergencyHubView } from './components/emergency/EmergencyHubView';
 import { OfferFlagBadge } from './components/common/OfferFlagBadge';
 import { SearchBar } from './components/common/SearchBar';
@@ -28,7 +27,6 @@ import {
   Filter,
   CheckCircle2,
   Plus,
-  PhoneCall,
   Tag,
   Star,
   MapPin,
@@ -355,9 +353,6 @@ const MainAppContent: React.FC = () => {
 
       case 'offers':
         return <OffersHubView onSelectBusiness={setSelectedBusiness} />;
-
-      case 'dialer':
-        return <KeypadDialer />;
 
       case 'emergency':
         return <EmergencyHubView />;

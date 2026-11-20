@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavTab } from './Sidebar';
-import { Users, Building2, PhoneCall, Tag, Shield, PlusCircle } from 'lucide-react';
+import { Users, Building2, Tag, Shield } from 'lucide-react';
 import { OfferFlagBadge } from '../common/OfferFlagBadge';
 
 interface MobileBottomNavProps {
@@ -12,7 +12,6 @@ interface MobileBottomNavProps {
 export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   activeTab,
   onSelectTab,
-  onOpenRegisterBusiness,
 }) => {
   return (
     <nav
@@ -21,9 +20,10 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         bottom: 0,
         left: 0,
         right: 0,
-        height: '64px',
+        height: '60px',
         backgroundColor: 'var(--surface)',
         borderTop: '1px solid var(--border)',
+        display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
         zIndex: 50,
@@ -36,6 +36,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         type="button"
         onClick={() => onSelectTab('contacts')}
         style={{
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -46,6 +47,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           fontSize: '11px',
           fontWeight: activeTab === 'contacts' ? 700 : 500,
           cursor: 'pointer',
+          padding: '8px 0',
         }}
       >
         <Users size={20} strokeWidth={activeTab === 'contacts' ? 2.5 : 2} />
@@ -57,6 +59,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         type="button"
         onClick={() => onSelectTab('businesses')}
         style={{
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -67,42 +70,19 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           fontSize: '11px',
           fontWeight: activeTab === 'businesses' ? 700 : 500,
           cursor: 'pointer',
+          padding: '8px 0',
         }}
       >
         <Building2 size={20} strokeWidth={activeTab === 'businesses' ? 2.5 : 2} />
         <span>Businesses</span>
       </button>
 
-      {/* 3. Center Raised Dialer Button */}
-      <button
-        type="button"
-        onClick={() => onSelectTab('dialer')}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '52px',
-          height: '52px',
-          borderRadius: '50%',
-          background: 'var(--primary-gradient)',
-          color: '#FFFFFF',
-          border: '3px solid var(--surface)',
-          marginTop: '-24px',
-          boxShadow: '0 6px 16px rgba(30, 96, 242, 0.45)',
-          cursor: 'pointer',
-          transform: activeTab === 'dialer' ? 'scale(1.08)' : 'scale(1)',
-          transition: 'transform 0.15s ease',
-        }}
-        title="Open Dialer"
-      >
-        <PhoneCall size={22} />
-      </button>
-
-      {/* 4. Offers Hub */}
+      {/* 3. Offers Hub */}
       <button
         type="button"
         onClick={() => onSelectTab('offers')}
         style={{
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -114,6 +94,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           fontWeight: activeTab === 'offers' ? 700 : 500,
           cursor: 'pointer',
           position: 'relative',
+          padding: '8px 0',
         }}
       >
         <div style={{ position: 'relative' }}>
@@ -131,11 +112,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         <span>Offers</span>
       </button>
 
-      {/* 5. Emergency */}
+      {/* 4. Emergency */}
       <button
         type="button"
         onClick={() => onSelectTab('emergency')}
         style={{
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -146,6 +128,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           fontSize: '11px',
           fontWeight: activeTab === 'emergency' ? 700 : 500,
           cursor: 'pointer',
+          padding: '8px 0',
         }}
       >
         <Shield size={20} strokeWidth={activeTab === 'emergency' ? 2.5 : 2} />
